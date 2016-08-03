@@ -78,8 +78,24 @@ function buildReceipt(promotedItems, {totalPayPrice, totalSaved}) {
   }
 }
 
+function formattedPrice(price) {
+  return price.toFixed(2);
+}
+
 function buildReceiptString(receipt) {
-  // TODO
+  const receiptItemsText = receipt.receiptItems.map(receiptItem => {
+    return `名称：${receiptItem.name}\
+，数量：${receiptItem.count}${receiptItem.unit}\
+，单价：${formattedPrice(receiptItem.price)}\
+(元)，小计：${formattedPrice(receiptItem.payPrice)}(元)`;
+  }).join('\n');
+
+  return `***<没钱赚商店>收据***
+${receiptItemsText}
+----------------------
+总计：${formattedPrice(receipt.totalPayPrice)}(元)
+节省：${formattedPrice(receipt.totalSaved)}(元)
+**********************`;
 }
 
 module.exports = {
